@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload CSV Files</title>
+</head>
+<body>
+
+<h2>Upload CSV Files</h2>
+<label>Enter folder's path:</label>
+<input type="text" id="Path"><br><br>
+
+<label for="csv1">Import CSV for Photos:</label>
+<input type="file" id="csv1" accept=".csv"><br><br>
+
+<div style="display: flex;">
+    <label for="csv2">Import CSV for Handhole:</label>
+    <input type="file" id="csv2" accept=".csv"><br><br>
+    <div id="csv2Dropdown"></div>
+</div>
+
+<button id="processBtn">Run</button>
+
+<script src="script.js"></script>
+<script src="dropdownlist.js"></script>
+<script src="calculation.js"></script>
+<script src="writePythonLine.js"></script>
+</body>
+</html>
