@@ -10,8 +10,8 @@ function getDistant(img_details,HH_details){
                 Name: name,
                 DistanceInKM: distKM,
                 DistanceInMeter: distanceInMeter,
-                X: coordinates[0][0],
-                Y: coordinates[0][1]
+                X: coordinates[0][1],
+                Y: coordinates[0][0]
             },
             geometry: {
                 type: "LineString",
