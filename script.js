@@ -72,6 +72,22 @@ function handleFileSelect(event) {
                 }
                 return null;
             }).filter(detail => detail !== null);
+            //add different name for duplicate HH name
+            const nameMap = new Map();
+            HH_details.forEach((item, index) => {
+                let name = item[2];
+                if (nameMap.has(name)) {
+                    // Increment the count for this name
+                    const count = nameMap.get(name);
+                    nameMap.set(name, count + 1);
+            
+                    // Append the count to the name, starting from (1)
+                    HH_details[index][2] = `${name}(${count})`;
+                } else {
+                    // Initialize the count for this name, starting from 1
+                    nameMap.set(name, 1);
+                }
+            });
 
             console.log('Handhole details:', HH_details);
             if(HH_details.length < 0){
