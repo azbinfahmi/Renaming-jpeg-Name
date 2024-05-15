@@ -3,7 +3,7 @@ function getDistant(img_details,HH_details){
     console.log('img_details: ',img_details)
     console.log('HH_details: ',HH_details)
     // Function to generate GeoJSON LineString
-    function createLineString(coordinates,name,distKM, distanceInMeter) {
+    function createLineString(coordinates,name,distKM, distanceInMeter, OriginalFileName) {
         return {
             type: "Feature",
             properties: {
@@ -11,7 +11,8 @@ function getDistant(img_details,HH_details){
                 DistanceInKM: distKM,
                 DistanceInMeter: distanceInMeter,
                 X: coordinates[0][1],
-                Y: coordinates[0][0]
+                Y: coordinates[0][0],
+                OriginalFileName: OriginalFileName
             },
             geometry: {
                 type: "LineString",
@@ -79,7 +80,7 @@ function getDistant(img_details,HH_details){
                 }
                 let distanceInKm = dist * 111
                 let distanceInMeter =dist * 111000
-                nearestLine = createLineString([[img_point[0],img_point[1]], coordHHPoint], nearestLabel_new, distanceInKm,distanceInMeter);
+                nearestLine = createLineString([[img_point[0],img_point[1]], coordHHPoint], nearestLabel_new, distanceInKm,distanceInMeter, img_point[2]);
                 nearestLines.push(nearestLine)
                 newfilename.push(nearestLabel_new)
             }
