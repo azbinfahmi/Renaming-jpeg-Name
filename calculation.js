@@ -78,6 +78,7 @@ function getDistant(img_details,HH_details){
                         }
                     }
                 }
+                nearestLabel_new = `${nearestLabel_new}__${img_point[2]}`
                 let distanceInKm = dist * 111
                 let distanceInMeter =dist * 111000
                 nearestLine = createLineString([[img_point[0],img_point[1]], coordHHPoint], nearestLabel_new, distanceInKm,distanceInMeter, img_point[2]);
