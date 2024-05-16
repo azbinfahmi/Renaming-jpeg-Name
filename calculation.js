@@ -1,5 +1,5 @@
 function getDistant(img_details,HH_details){
-    let filename = [], newfilename = []
+    let filename = [], newfilename = [], temp_newfilename =[]
     console.log('img_details: ',img_details)
     console.log('HH_details: ',HH_details)
     // Function to generate GeoJSON LineString
@@ -66,18 +66,19 @@ function getDistant(img_details,HH_details){
                 filename.push(`${img_point[2]}.jpeg`)
                 // Get the label of the nearest point
                 let nearestLabel_new = `${nearestLabel} (1)`
-                if(newfilename.includes(nearestLabel_new)){
+                if(temp_newfilename.includes(nearestLabel_new)){
                     let pass = false
                     let index = 2
                     while (pass == false){
                         nearestLabel_new = `${nearestLabel} (${index})`
                         index += 1
-                        if(!newfilename.includes(nearestLabel_new)){
+                        if(!temp_newfilename.includes(nearestLabel_new)){
                             nearestLabel = nearestLabel_new
                             pass = true
                         }
                     }
                 }
+                temp_newfilename.push(nearestLabel_new)
                 nearestLabel_new = `${nearestLabel_new}__${img_point[2]}`
                 let distanceInKm = dist * 111
                 let distanceInMeter =dist * 111000
