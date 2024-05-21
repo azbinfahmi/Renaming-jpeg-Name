@@ -1,5 +1,5 @@
 function getDistant(img_details,HH_details){
-    let filename = [], newfilename = [], temp_newfilename =[]
+    let filename = [], newfilename = [], temp_newfilename =[], temp_noHHName = []
     console.log('img_details: ',img_details)
     console.log('HH_details: ',HH_details)
     // Function to generate GeoJSON LineString
@@ -40,11 +40,11 @@ function getDistant(img_details,HH_details){
     
         return distance;
     }
-    
     function findNearestPoints(img_details, HH_details) {
         const nearestPoints = [];
         const nearestLines = [];
-        let minDist =  prompt('Maximum radius from HH to image location in Meter:', 100);
+        let minDist_prompt =  prompt('Maximum radius from HH to image location in Meter:', 100);
+        let countnoHHIndex = 0
         img_details.forEach(img_point => {
             let minDistance = Infinity;
             let nearestLabel = null;
@@ -61,7 +61,7 @@ function getDistant(img_details,HH_details){
             });
             
             minDist = minDistance* 111000 //convert to meters
-            if(minDist > 0 && minDist <= 100 ){
+            if(minDist > 0 && minDist <= Number(minDist_prompt) ){
                 nearestPoints.push([img_point[2], nearestLabel, minDistance]);
                 filename.push(`${img_point[2]}.jpeg`)
                 // Get the label of the nearest point
@@ -86,12 +86,18 @@ function getDistant(img_details,HH_details){
                 nearestLines.push(nearestLine)
                 newfilename.push(nearestLabel_new)
             }
+            else{
+                countnoHHIndex += 1
+                filename.push(`${img_point[2]}.jpeg`)
+                editednoHHanem = `NoHH (${countnoHHIndex})__${img_point[2]} `
+                newfilename.push(editednoHHanem)
+            }
+
             
         });
     
         return [nearestPoints,nearestLines];
     }
-
     function downloadGeoJSON(data, filename) {
         const json = JSON.stringify({
             type: "FeatureCollection",
@@ -107,7 +113,6 @@ function getDistant(img_details,HH_details){
         a.click();
         URL.revokeObjectURL(url);
     }
-
     function getHHNames(){
         let uniqueHH = []
         for(let i=0; i < HH_details.length; i++ ){
