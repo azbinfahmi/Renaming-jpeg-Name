@@ -5,7 +5,7 @@ document.getElementById('csv1').addEventListener('change', handleFileSelect);
 document.getElementById('csv2').addEventListener('change', handleFileSelect);
 document.getElementById('processBtn').addEventListener('click', runProcessing);
 
-sendWS()
+//sendWS()
 
 function handleFileSelect(event) {
     const fileInput = event.target;
