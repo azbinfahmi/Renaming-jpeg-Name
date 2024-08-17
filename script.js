@@ -5,7 +5,7 @@ document.getElementById('csv1').addEventListener('change', handleFileSelect);
 document.getElementById('csv2').addEventListener('change', handleFileSelect);
 document.getElementById('processBtn').addEventListener('click', runProcessing);
 
-//sendWS()
+sendWS()
 
 function handleFileSelect(event) {
     const fileInput = event.target;
@@ -122,51 +122,57 @@ function runProcessing() {
 
 function sendWS() {
     // Create a new WebSocket connection
-    const socket = new WebSocket('ws://192.168.0.9:3000');
-  
+    const socket = new WebSocket('wss://marshiki.ddns.net:3000');
+
     // Function to get the current formatted timestamp
     function getFormattedTimestamp() {
-      const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const now = new Date();
-      const dayName = daysOfWeek[now.getDay()];
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-      const year = now.getFullYear();
-      const hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const period = hours >= 12 ? 'p.m' : 'a.m';
-      const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-      return `${dayName}-${day}-${month}-${year} - ${formattedHours}.${minutes}${period}`;
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const now = new Date();
+        const dayName = daysOfWeek[now.getDay()];
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+        const hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const period = hours >= 12 ? 'p.m' : 'a.m';
+        const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+        return `${dayName}-${day}-${month}-${year} - ${formattedHours}.${minutes}${period}`;
     }
-  
+
     // Function to get or create a unique user ID
     function getUserId() {
-      let userId = localStorage.getItem('userId');
-      if (!userId) {
-        userId = 'user-' + Math.random().toString(36).substr(2, 9); // Generate a unique ID
-        localStorage.setItem('userId', userId);
-      }
-      return userId;
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'user-' + Math.random().toString(36).substr(2, 9); // Generate a unique ID
+            localStorage.setItem('userId', userId);
+        }
+        return userId;
     }
-  
+
+    // Event listener for when the connection is opened
     socket.addEventListener('open', function (event) {
         // Prepare message with timestamp and unique user ID
         const timestamp = getFormattedTimestamp();
         const userId = getUserId();
         const message = `UserID: ${userId}, Platform: Renaming JPEG Name, Timestamp: ${timestamp}`;
         socket.send(message);
-        socket.close();
+        socket.close(); // Close the socket after sending the message
     });
-  
+
+    // Event listener for when a message is received
     socket.addEventListener('message', function (event) {
-        // Handle incoming messages
+        console.log('Received from server:', event.data);
     });
-  
+
+    // Event listener for when the connection is closed
     socket.addEventListener('close', function (event) {
-        // Handle the connection close event
+        console.log('WebSocket connection closed');
     });
-  
+
+    // Event listener for WebSocket errors
     socket.addEventListener('error', function (event) {
-        // Handle WebSocket errors
+        console.error('WebSocket error:', event);
     });
 }
+
+
